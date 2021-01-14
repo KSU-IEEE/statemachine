@@ -7,7 +7,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   roslaunch
   nodelet
-  behaviors)
+  behaviors
+  arduino-ros)
 
 ################################################
 ## Declare ROS messages, services and actions ##
