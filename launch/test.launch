@@ -1,0 +1,7 @@
+<launch>
+    <!-- behaviors test -->
+    <include file="$(find behaviors)/launch/test_behaviors.launch"/>
+
+    <!-- rosserial test -->
+    <include file="$(find arduino-ros)/launch/test.launch"/>
+</launch>

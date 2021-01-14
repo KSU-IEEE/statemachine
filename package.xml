@@ -17,11 +17,14 @@
 
     <build_depend>message_generation</build_depend>
     <build_depend>nodelet</build_depend>
-    <build_depend>behaviors</build_depend>
 
     <exec_depend>message_runtime</exec_depend>
     <exec_depend>rospy</exec_depend>
     <exec_depend>nodelet</exec_depend>
+
+    <!-- OUR LIBRIES -->
+    <build_depend>behaviors</build_depend>      
+    <build_depend>arduino-ros</build_depend>
 
     <!-- export nodelets -->
     <export>
