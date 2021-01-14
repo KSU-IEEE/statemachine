@@ -1,0 +1,8 @@
+<library path="lib/libstatemachine">
+    <class name="interface/sm_base_interface" type="statemachine::smBaseInterface"
+        base_class_type="nodelet::Nodelet">
+    <description>
+        the base statemachine 
+    </description>
+    </class>
+</library>

@@ -71,8 +71,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES statemachine
-  CATKIN_DEPENDS roscpp
+  LIBRARIES statemachine 
+  CATKIN_DEPENDS roscpp behaviors
 )
 
 ###################################
@@ -81,21 +81,25 @@ catkin_package(
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
+    ${behaviors_INCLUDE_DIRS}
 )
 
 # add any .cpp file paths here
 set(SRCS 
+src/sm_base_interface
 )
 
 if ( NOT ("${SRCS}" STREQUAL "") )
   set(LIBS 
     ${catkin_LIBRARIES}
+    ${behaviors_LIBS}
   )
   message(STATUS "${PROJECT_NAME} library compiling: ${SRCS}")
   add_library(statemachine ${SRCS})
   target_link_libraries(statemachine 
       PUBLIC
-      ${LIBS})
+      ${LIBS}
+      )
 
   #update master CMakeLists.txt
   list(APPEND COMPILATION_TARGETS statemachine)
@@ -103,7 +107,7 @@ if ( NOT ("${SRCS}" STREQUAL "") )
   #############
   ## Install ##
   #############
-  message(WARNING "statemachine files found")
+  message(STATUS "statemachine files found")
   install(TARGETS statemachine
     # ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
