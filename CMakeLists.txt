@@ -8,7 +8,12 @@ find_package(catkin REQUIRED COMPONENTS
   roslaunch
   nodelet
   behaviors
-  arduino-ros)
+  )
+
+find_package(arduino-ros QUIET)
+if(${arduino-ros_FOUND})
+  message("Arduino ros not found in statemachine")
+endif()
 
 ################################################
 ## Declare ROS messages, services and actions ##
