@@ -77,7 +77,7 @@ endif()
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES statemachine 
-  CATKIN_DEPENDS roscpp behaviors
+  CATKIN_DEPENDS roscpp message_runtime behaviors 
 )
 
 ###################################
@@ -91,7 +91,7 @@ include_directories(
 
 # add any .cpp file paths here
 set(SRCS 
-src/sm_base_interface
+src/sm_interface.cpp
 )
 
 if ( NOT ("${SRCS}" STREQUAL "") )

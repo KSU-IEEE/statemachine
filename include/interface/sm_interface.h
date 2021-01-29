@@ -17,6 +17,7 @@ statemachine, simply by telling it which statemachine file to use
 #include <boost/thread.hpp>
 
 // put messages here
+#include <behaviors/target.h>
 
 namespace statemachine {
 class smBaseInterface : public nodelet::Nodelet {
