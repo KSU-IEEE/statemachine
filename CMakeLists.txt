@@ -92,6 +92,7 @@ include_directories(
 # add any .cpp file paths here
 set(SRCS 
 src/sm_interface.cpp
+src/base_state_machine.cpp
 )
 
 if ( NOT ("${SRCS}" STREQUAL "") )
