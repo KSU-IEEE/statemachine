@@ -18,19 +18,34 @@ statemachine, simply by telling it which statemachine file to use
 
 // put messages here
 #include <behaviors/target.h>
+#include <std_msgs/Bool.h>
+
+//statemachines
+#include <statemachine/base_state_machine.h>
 
 namespace statemachine {
-class smBaseInterface : public nodelet::Nodelet {
+class smInterface : public nodelet::Nodelet {
 public:
+    // initializers
+    smInterface();
+    ~smInterface();
+
     void onInit() override;
-    void control();
+
+    bool createSm(int target);  // get which state machine to to use (see list above)
+    void complete_cb(const std_msgs::Bool::ConstPtr& activate);
 
 private:
-    // from
-    //https://github.com/ros-drivers/camera1394/blob/abc1950a6925628acc7581cabc312741706b6e4c/src/nodes/nodelet.cpp 
-    volatile bool running_;               ///< device is running
-    boost::shared_ptr<boost::thread> deviceThread_;
-public:
+    // list of publishers
+    vector<ros::Publisher> pub_list_;
+    vector<ros::Subscriber> sub_list_;
+    ros::NodeHandle nh_;
+
+    int curr_state_;
+    int state_machine_model_;
+
+    // statemachines
+    stateMachine stateMachine_;
 };
 } // namespace statemachine 
 #endif // SM_INTERFACE_H

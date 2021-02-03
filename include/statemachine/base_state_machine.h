@@ -1,5 +1,5 @@
-#ifndef BASE_STATE_MACHINE_H 
-#define BASE_STATE_MACHINE_H
+#ifndef STATEMACHINE_H 
+#define STATEMACHINE_H
 
 // includes 
 #include <utility> // std::pair
@@ -7,10 +7,13 @@
 #include <string>
 
 using namespace std;
-namespace state_machine {
+namespace statemachine {
 
 class stateMachine {
 public:
+    stateMachine();
+    ~stateMachine();
+
     void transition();
     pair<string, char> get_state();
     vector<string> get_all_states();
