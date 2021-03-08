@@ -14,12 +14,16 @@ public:
     stateMachine();
     ~stateMachine();
 
-    void transition();
-    pair<string, char> get_state();
-    vector<string> get_all_states();
-    
+    pair<string, char> transition(); //returns the next state
+    pair<string, char> get_state();  //get's current state
+    vector<string> get_all_states(); //returns vector of all state's names
+
+    //change target at given index
+    //this is so we can change our target to 'A' or 'C' based on location of pellet
+    void change_index(int index, char target);
+
 private:
-    vector<pair<string, char>> states;
+    vector<pair<string, char>> states;  //vector of every state
     int curr_state;  // index in vector above
 protected:
 }; //class state

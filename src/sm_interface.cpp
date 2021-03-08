@@ -32,10 +32,12 @@ void smInterface::complete_cb(const std_msgs::Bool::ConstPtr& activate) {
         // char* msg[] = 'STATEMACHINE: ' + char(current_state.first) + ' completed successfully';
         // ROS_INFO(msg);
 
-        stateMachine_.transition();  // transition to the next state
+        //probably not going to use since transition is no longer void
+        //stateMachine_.transition();  // transition to the next state
 
         /*************************in new state**********************************/
-        pair<string, char> target_state = stateMachine_.get_state();
+        //pair<string, char> target_state = stateMachine_.get_state();
+        pair<string, char> target_state = stateMachine_.transition();
 
         // NODELET_INFO("STATEMACHINE: transitioning to state " + target_state.first);
 
