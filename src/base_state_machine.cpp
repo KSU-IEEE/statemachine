@@ -3,6 +3,12 @@
 
 namespace statemachine {
 
+
+    //add states from interface
+    void stateMachine::add_states(pair<string, char> new_state){
+        states.push_back(new_state);
+    }
+
     //returns a vector of all the states
     vector<string> stateMachine::get_all_states(){
         //new vector to hold just the name of the states
@@ -14,6 +20,7 @@ namespace statemachine {
         }
         return stateNames;
     }
+
 
     //returns the next state
     pair<string, char> stateMachine::transition(){
@@ -33,7 +40,7 @@ namespace statemachine {
 
     //changes the target state for any given state at given index
     //EX: If state A is suppose to transition to State B, we can change state A to transition to state C using State A's index
-    void stateMachine::change_index(int index, char target){
+    void stateMachine::change_target(int index, char target){
         states.at(index).second = target;
     }
 

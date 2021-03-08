@@ -18,9 +18,11 @@ public:
     pair<string, char> get_state();  //get's current state
     vector<string> get_all_states(); //returns vector of all state's names
 
+    void add_states(pair<string, char> state_name);
+
     //change target at given index
     //this is so we can change our target to 'A' or 'C' based on location of pellet
-    void change_index(int index, char target);
+    void change_target(int index, char target);
 
 private:
     vector<pair<string, char>> states;  //vector of every state
