@@ -1,0 +1,7 @@
+<launch>
+<param name="arm/length" type="double" value="7"/>
+<param name="arm/distanceLength" type="double" value="6"/>
+<param name="arm/baseHeight" type="double" value="6"/>
+
+<include file="$(find behaviors)/launch/pman_behs.launch"/>
+</launch>
