@@ -11,8 +11,8 @@ namespace statemachine {
 
 class stateMachine {
 public:
-    stateMachine();
-    ~stateMachine();
+    stateMachine(){}
+    ~stateMachine(){}
 
     pair<string, char> transition(); //returns the next state
     pair<string, char> get_state();  //get's current state
@@ -26,7 +26,7 @@ public:
 
 private:
     vector<pair<string, char>> states;  //vector of every state
-    int curr_state;  // index in vector above
+    int curr_state = 0;  // index in vector above
 protected:
 }; //class state
 } // namespace statemachine

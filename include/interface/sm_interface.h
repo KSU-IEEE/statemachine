@@ -34,11 +34,15 @@ public:
 
     bool createSm(int target);  // get which state machine to to use (see list above)
     void complete_cb(const std_msgs::Bool::ConstPtr& activate);
+    void transition_cb(const std_msgs::Bool::ConstPtr& yes) {if(yes->data)stateMachine_.transition();}
 
 private:
     // list of publishers
     vector<ros::Publisher> pub_list_;
     vector<ros::Subscriber> sub_list_;
+
+    ros::Subscriber sub_transition;
+
     ros::NodeHandle nh_;
 
     int curr_state_;
