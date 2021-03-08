@@ -32,7 +32,7 @@ void smInterface::complete_cb(const std_msgs::Bool::ConstPtr& activate) {
     std::string sub_beh = stateMachine_.get_state().first;
     bool isState = (act_topic.compare(sub_beh) != 0);
 
-    if (!activate->data && isState) {
+    if (!activate->yes && isState) {
         std::cout<<"data is false"<<std::endl;
         return;
     } else {
