@@ -25,12 +25,12 @@ bool smInterface::createSm(int target){
     }
 }
 
-void smInterface::complete_cb(const std_msgs::Bool::ConstPtr& activate) {
+void smInterface::complete_cb(const behaviors::completed::ConstPtr& activate) {
     std::cout<<"in complete_cb"<<std::endl;
 
-    std::string act_beh = activate.behavior;
+    std::string act_beh = activate->behavior;
     std::string sub_beh = stateMachine_.get_state().first;
-    bool isState = (act_topic.compare(sub_beh) != 0);
+    bool isState = (act_beh.compare(sub_beh) != 0);
 
     if (!activate->yes && isState) {
         std::cout<<"data is false"<<std::endl;
@@ -39,7 +39,7 @@ void smInterface::complete_cb(const std_msgs::Bool::ConstPtr& activate) {
         std::cout<<"in else"<<std::endl;
         /************************in previous state******************************/
         pair<string, char> current_state = stateMachine_.get_state();
-        std::cout<<"got current state"<<std::endl;
+        std::cout<<"got current state as "<< current_state.first << std::endl;
         // char* msg[] = 'STATEMACHINE: ' + char(current_state.first) + ' completed successfully';
         // ROS_INFO(msg);
 
@@ -50,6 +50,7 @@ void smInterface::complete_cb(const std_msgs::Bool::ConstPtr& activate) {
         //pair<string, char> target_state = stateMachine_.get_state();
         pair<string, char> target_state = stateMachine_.transition();
         std::cout<<"transitioned"<<std::endl;
+        std::cout<<"Current State after transitioned "<<target_state.first<<std::endl;
 
         // NODELET_INFO("STATEMACHINE: transitioning to state " + target_state.first);
 
@@ -61,18 +62,22 @@ void smInterface::complete_cb(const std_msgs::Bool::ConstPtr& activate) {
         std::cout<<"deactivated old state"<<std::endl;
 
         /* start next state */
-        string state_string = target_state.first;
+        string state_string = "/" + target_state.first +"/activate";
         target_msg.activate.data = true;
         target_msg.goal.data = target_state.second;
 
         curr_state_ = 0;
         for(auto it : pub_list_) {
             std::string topic = it.getTopic();
-            if(state_string.compare(topic) != 0) {
+            if(state_string.compare(topic) == 0) {
+                std::cout<<"State_string = " << state_string << " topic " << topic <<std::endl;
                 it.publish(target_msg);
                 break;
             }
             curr_state_++;
+            std::cout<<"we beepin"<<std::endl;
+            //std::cout<<"NOT IN IF State_string = " << state_string << " topic " << topic <<std::endl;
+            //std::cout<<"curr_state_ in interface.cpp in loop is " << curr_state_<< std::endl;
         }
         
         std::cout<<"sent activate message"<<std::endl;
@@ -139,8 +144,7 @@ void smInterface::onInit() {
         }
         if(make) {
             std::cout<<"Initializing for state: "<<it<<std::endl;
-            ros::Subscriber temp_sub = nh_.subscribe<std_msgs::Bool>
-                                (it + "/completed", 1000, &smInterface::complete_cb, this);
+            ros::Subscriber temp_sub = nh_.subscribe(it + "/completed", 1000, &smInterface::complete_cb, this);
             ros::Publisher temp_pub = nh_.advertise<behaviors::target>
                                 (it + "/activate", 1000);
 

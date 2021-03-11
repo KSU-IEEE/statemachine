@@ -1,5 +1,5 @@
 #include <statemachine/base_state_machine.h>
-
+#include <iostream>
 
 namespace statemachine {
 
@@ -25,12 +25,16 @@ namespace statemachine {
     //returns the next state
     pair<string, char> stateMachine::transition(){
         //if, by chance, the bot tries to transition out of bounds, loop to beginning
-        if(curr_state > states.size())
+        //cout <<"state counter before if " << curr_state <<endl;
+        if(curr_state > states.size()){            //Guess who's dumbass forgot that this wasn't python and I needed { }
             curr_state = 0;
+            cout <<"I broke? then state size is? " << states.size() << "and curr_state is " << curr_state <<endl;
             return states.at(curr_state);
+        }
 
         //increment's the object's current index 
         curr_state++;
+        std::cout <<"increment that bitch to " << curr_state <<endl;
         return states.at(curr_state);
     }
 
