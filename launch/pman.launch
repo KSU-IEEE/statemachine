@@ -3,7 +3,8 @@
 <param name="arm/sensorLength" type="double" value="6"/>
 <param name="arm/baseHeight" type="double" value="6"/>
 
-<param name="statemachine" value="init check_for_ghosts ground_search reach_search ground_search reach_search reach_search reach_search attack_ghosts return_to_start end "/>
+<!-- has to end with peepee (like acutally it does)-->
+<param name="statemachine" value="init check_for_ghosts ground_search reach_search ground_search reach_search reach_search reach_search attack_ghosts return_to_start end peepee"/>
 
 <param name="targets" value="AAFDHEBAAAA"/>
 
