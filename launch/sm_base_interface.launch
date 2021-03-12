@@ -1,0 +1,7 @@
+<launch>
+<node pkg="nodelet"
+    type="nodelet" name="statemachine"
+    args="standalone interface/sm_interface"
+    respawn="false" output="screen">
+</node>
+</launch>

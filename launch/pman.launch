@@ -1,0 +1,30 @@
+<launch>
+
+<!-- for arm -->
+<param name="/arm/length" type="double" value="7"/>
+<param name="/arm/sensorDist" type="double" value="6"/>
+<param name="/arm/baseHeight" type="double" value="6"/>
+<param name="/arm/baseLength" type="double" value="3"/>
+
+<!-- starting data -->
+<param name="starting_x" type="double" value="43.5"/>
+<param name="starting_y" type="double" value="2"/>
+<param name="startingHeading" type="double" value="0"/>
+
+<!-- bot dimensions -->
+<param name="botWidth" type="double" value="6"/>
+
+<!-- has to end with peepee (like acutally it does)-->
+<param name="statemachine" value="init check_for_ghosts ground_search reach_search ground_search reach_search reach_search reach_search attack_ghosts return_to_start end peepee"/>
+
+<param name="targets" value="AAFDHEBAAAA"/>
+
+<include file="$(find behaviors)/launch/pman_behs.launch"/>
+<include file="$(find statemachine)/launch/sm_base_interface.launch"/>
+
+<!-- controllers include -->
+<include file="$(find ros-wrappers)/launch/a_star.launch"/>
+
+<!-- arduino includes -->
+<include file="$(find arduino-ros)/launch/pac_man_arduino.launch"/>
+</launch>
