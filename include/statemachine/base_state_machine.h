@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 
+#include <std_msgs/Char.h>
+
 using namespace std;
 namespace statemachine {
 

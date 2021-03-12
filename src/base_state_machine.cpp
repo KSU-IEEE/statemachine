@@ -48,4 +48,5 @@ namespace statemachine {
         states.at(index).second = target;
     }
 
+
 } // state_machine namespace

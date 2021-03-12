@@ -20,6 +20,7 @@ statemachine, simply by telling it which statemachine file to use
 #include <behaviors/target.h>
 #include <behaviors/completed.h>
 #include <std_msgs/Bool.h>
+#include <std_msgs/Char.h>
 
 //statemachines
 #include <statemachine/base_state_machine.h>
@@ -36,13 +37,14 @@ public:
     bool createSm(int target);  // get which state machine to to use (see list above)
     void complete_cb(const behaviors::completed::ConstPtr& activate);
     void transition_cb(const std_msgs::Bool::ConstPtr& yes) {if(yes->data)stateMachine_.transition();}
+    void targetChange_cb(const std_msgs::Char::ConstPtr& target);
 
 private:
     // list of publishers
     vector<ros::Publisher> pub_list_;
     vector<ros::Subscriber> sub_list_;
 
-    ros::Subscriber sub_transition;
+    ros::Subscriber sub_transition, target_change;
 
     ros::NodeHandle nh_;
 

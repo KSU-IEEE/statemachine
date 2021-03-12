@@ -84,6 +84,21 @@ void smInterface::complete_cb(const behaviors::completed::ConstPtr& activate) {
     }
 }
 
+
+void smInterface::targetChange_cb(const std_msgs::Char::ConstPtr& target){
+    //hard coding this BITCH IN
+    if(stateMachine_.get_all_states().size() >= 8){
+        char new_target = target->data;
+        std::cout<<"changing that TARGET to " << new_target << std::endl;
+        stateMachine_.change_target(8, new_target);
+    }
+    else{
+        std::cout <<"Not changing target because no OR because the size is not >=8 because trevor said" << std::endl;
+    }
+
+}
+
+
 void smInterface::onInit() {
     /* parse launch file for which state machine to use */
     nh_.getParam("/StateMachineModel", state_machine_model_);
@@ -125,6 +140,9 @@ void smInterface::onInit() {
     //     return;
     // }
 
+
+
+    target_change = nh_.subscribe<std_msgs::Char>("PPLocation", 1000, &smInterface::targetChange_cb, this);
     sub_transition = nh_.subscribe<std_msgs::Bool>("sm/transition", 1000, &smInterface::transition_cb, this);
     // NODELET_INFO("STATEMACHINE: Successfully statemachine with model: %d", state_machine_model_);
 
@@ -165,4 +183,6 @@ void smInterface::onInit() {
     ///init/activate
 
 }
+
+
 } // namespace statemachine
