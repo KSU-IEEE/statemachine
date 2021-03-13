@@ -98,6 +98,65 @@ void smInterface::targetChange_cb(const std_msgs::Char::ConstPtr& target){
 
 }
 
+void smInterface::check_time() {
+    std::chrono::time_point<std::chrono::system_clock> nowish = std::chrono::system_clock::now();
+
+    float diff = 
+        chrono::duration_cast<chrono::milliseconds>(nowish - start_time_).count() / 1000;
+
+    // print_msg(to_string(nowish.time_since_epoch().count()) + " and " +to_string(start_time_.time_since_epoch().count()) );
+    // print_msg(to_string(diff));
+    // send status
+    int secs = int(floor(diff));
+    if (secs >= 4.6 * 60) {
+        /************************in previous state******************************/
+        pair<string, char> current_state = stateMachine_.get_state();
+        std::cout<<"got current state as "<< current_state.first << std::endl;
+        // char* msg[] = 'STATEMACHINE: ' + char(current_state.first) + ' completed successfully';
+        // ROS_INFO(msg);
+
+        //probably not going to use since transition is no longer void
+        //stateMachine_.transition();  // transition to the next state
+
+        /*************************in new state**********************************/
+        //pair<string, char> target_state = stateMachine_.get_state();
+
+        // hard coding to return to start
+        pair<string, char> target_state = stateMachine_.get_state_at(9);//stateMachine_.transition();
+        std::cout<<"transitioned"<<std::endl;
+        std::cout<<"Current State after transitioned "<<target_state.first<<std::endl;
+
+        // NODELET_INFO("STATEMACHINE: transitioning to state " + target_state.first);
+
+        /* stop current state */
+        behaviors::target target_msg;
+        target_msg.activate.data = false;
+        pub_list_.at(curr_state_).publish(target_msg);
+
+        std::cout<<"deactivated old state"<<std::endl;
+
+        /* start next state */
+        string state_string = "/" + target_state.first +"/activate";
+        target_msg.activate.data = true;
+        target_msg.goal.data = target_state.second;
+
+        curr_state_ = 0;
+        for(auto it : pub_list_) {
+            std::string topic = it.getTopic();
+            if(state_string.compare(topic) == 0) {
+                std::cout<<"State_string = " << state_string << " topic " << topic <<std::endl;
+                it.publish(target_msg);
+                break;
+            }
+            curr_state_++;
+            std::cout<<"we beepin"<<std::endl;
+            //std::cout<<"NOT IN IF State_string = " << state_string << " topic " << topic <<std::endl;
+            //std::cout<<"curr_state_ in interface.cpp in loop is " << curr_state_<< std::endl;
+        }
+        
+        std::cout<<"sent activate message"<<std::endl;
+    }
+}
 
 void smInterface::onInit() {
     /* parse launch file for which state machine to use */
@@ -175,10 +234,22 @@ void smInterface::onInit() {
     behaviors::target begin;
     begin.activate.data = true;
     // begin.goal.data= stateMachine_.get_state().second;
+
+    // wait 5 seconds to publish
+    start_time_ = std::chrono::system_clock::now();
+    std::chrono::duration<float> diff = 
+        std::chrono::system_clock::now() - start_time_;
+    while(diff.count() < 5)
+        diff = std::chrono::system_clock::now() - start_time_;
+
     pub_list_.at(0).publish(begin);   
 
     std::cout<<"waiting"<<std::endl; 
 
+    // give a thread to check the timer
+    deviceThread_ = boost::shared_ptr< boost::thread > 
+            (new boost::thread(boost::bind(&smInterface::check_time, this)));
+    start_time_ = std::chrono::system_clock::now();
     ///init/activate
     ///init/activate
 

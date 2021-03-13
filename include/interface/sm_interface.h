@@ -15,6 +15,7 @@ statemachine, simply by telling it which statemachine file to use
 
 // random libraries
 #include <boost/thread.hpp>
+#include <chrono> 
 
 // put messages here
 #include <behaviors/target.h>
@@ -39,6 +40,9 @@ public:
     void transition_cb(const std_msgs::Bool::ConstPtr& yes) {if(yes->data)stateMachine_.transition();}
     void targetChange_cb(const std_msgs::Char::ConstPtr& target);
 
+    void check_time();
+
+
 private:
     // list of publishers
     vector<ros::Publisher> pub_list_;
@@ -53,6 +57,11 @@ private:
 
     // statemachines
     stateMachine stateMachine_;
+    
+    // timer
+    boost::shared_ptr<boost::thread> deviceThread_;
+    std::chrono::time_point<std::chrono::system_clock> start_time_;
+
 };
 } // namespace statemachine 
 #endif // SM_INTERFACE_H

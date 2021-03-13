@@ -26,5 +26,5 @@
 <include file="$(find ros-wrappers)/launch/a_star.launch"/>
 
 <!-- arduino includes -->
-<include file="$(find arduino-ros)/launch/pac_man_arduino.launch"/>
+<!-- <include file="$(find arduino-ros)/launch/pac_man_arduino.launch"/> -->
 </launch>

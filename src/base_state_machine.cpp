@@ -48,5 +48,11 @@ namespace statemachine {
         states.at(index).second = target;
     }
 
+    pair<string, char>stateMachine::get_state_at(int index) {
+        if (index <= states.size()) {
+            return states.at(index);
+        }
+    }
+
 
 } // state_machine namespace
